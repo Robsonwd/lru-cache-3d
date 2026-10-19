@@ -1,0 +1,13 @@
+# Dependencies
+node_modules/
+
+# Build output (regenerate with `npm run build`)
+lru-cache.html
+
+# Local tooling scratch
+.superpowers/
+.vidmatic-demo/
+
+# OS / editor
+.DS_Store
+*.log

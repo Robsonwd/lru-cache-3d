@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LRU Cache in 3D</title>
+<style>/*__CSS__*/</style>
+</head>
+<body>
+<canvas id="stage"></canvas>
+<div id="fatal" hidden></div>
+<div id="overlay" data-mode="tour">
+  <header id="topbar">
+    <div id="brand"><span class="brand-mark" aria-hidden="true"></span><span class="brand-name">LRU Cache</span></div>
+    <nav id="chapters" aria-label="Chapters"><ol id="chapter-list"></ol></nav>
+    <div id="mode-switch" role="group" aria-label="Mode">
+      <button type="button" id="mode-tour" data-mode="tour" aria-pressed="true">Tour</button>
+      <button type="button" id="mode-sandbox" data-mode="sandbox" aria-pressed="false">Sandbox</button>
+    </div>
+  </header>
+
+  <aside id="readout" aria-label="Cache activity">
+    <dl id="stats">
+      <div class="stat" data-stat="hits"><dt>hits</dt><dd id="stat-hits" class="is-zero">0</dd></div>
+      <div class="stat" data-stat="misses"><dt>misses</dt><dd id="stat-misses" class="is-zero">0</dd></div>
+      <div class="stat" data-stat="evictions"><dt>evictions</dt><dd id="stat-evictions" class="is-zero">0</dd></div>
+    </dl>
+    <section id="log-panel" aria-label="Operation log">
+      <h2 class="eyebrow">log</h2>
+      <ol id="log"></ol>
+      <p id="log-empty">No operations yet.</p>
+    </section>
+  </aside>
+
+  <div id="veil" aria-hidden="true"></div>
+
+  <div id="counter" aria-live="off">
+    <span id="counter-label" class="eyebrow"></span>
+    <span id="counter-value"></span>
+  </div>
+
+  <div id="flash" aria-hidden="true">
+    <span id="flash-number" class="eyebrow"></span>
+    <span id="flash-title"></span>
+  </div>
+
+  <section id="dock">
+    <div id="op" aria-live="polite"><span class="op-prompt" aria-hidden="true">&gt;</span><span id="op-text"></span></div>
+    <div id="caption" aria-live="polite">
+      <p class="caption-line"></p>
+      <p class="caption-line"></p>
+    </div>
+    <div id="transport" role="toolbar" aria-label="Playback">
+      <button type="button" id="step-back" class="icon-btn tour-only" aria-label="Step back" title="Step back (Left arrow)">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2.5" y="3" width="1.6" height="10"/><path d="M13 3.2v9.6L5.6 8z"/></svg>
+      </button>
+      <button type="button" id="play-pause" class="icon-btn" aria-label="Pause" title="Play or pause (Space)">
+        <svg class="icon-pause" viewBox="0 0 16 16" aria-hidden="true"><rect x="3.6" y="3" width="2.6" height="10"/><rect x="9.8" y="3" width="2.6" height="10"/></svg>
+        <svg class="icon-play" viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 2.8v10.4L13 8z"/></svg>
+      </button>
+      <button type="button" id="step-forward" class="icon-btn tour-only" aria-label="Step forward" title="Step forward (Right arrow)">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3.2v9.6L10.4 8z"/><rect x="11.9" y="3" width="1.6" height="10"/></svg>
+      </button>
+      <span class="transport-rule" aria-hidden="true"></span>
+      <div id="speed" role="group" aria-label="Speed">
+        <button type="button" class="speed-btn" data-speed="0.5" aria-pressed="false">0.5&times;</button>
+        <button type="button" class="speed-btn" data-speed="1" aria-pressed="true">1&times;</button>
+        <button type="button" class="speed-btn" data-speed="2" aria-pressed="false">2&times;</button>
+      </div>
+    </div>
+  </section>
+
+  <form id="sandbox" aria-label="Sandbox" novalidate hidden>
+    <h2 class="eyebrow">sandbox</h2>
+    <div class="fields">
+      <div class="field">
+        <label for="key-input">key</label>
+        <input id="key-input" name="key" type="text" autocomplete="off" spellcheck="false" maxlength="12" aria-describedby="key-error" placeholder="A">
+        <p id="key-error" class="field-error" role="alert"></p>
+      </div>
+      <div class="field">
+        <label for="value-input">value</label>
+        <input id="value-input" name="value" type="text" autocomplete="off" spellcheck="false" maxlength="12" aria-describedby="value-error" placeholder="1">
+        <p id="value-error" class="field-error" role="alert"></p>
+      </div>
+    </div>
+    <div class="actions">
+      <button type="button" id="get-btn" class="op-btn">get</button>
+      <button type="button" id="put-btn" class="op-btn">put</button>
+    </div>
+    <div class="settings">
+      <div class="field">
+        <label for="capacity-input">capacity</label>
+        <div class="stepper">
+          <button type="button" id="capacity-down" class="stepper-btn" aria-label="Decrease capacity">&minus;</button>
+          <input id="capacity-input" type="number" min="2" max="8" step="1" value="4" inputmode="numeric">
+          <button type="button" id="capacity-up" class="stepper-btn" aria-label="Increase capacity">+</button>
+        </div>
+      </div>
+      <button type="button" id="reset-btn">Reset</button>
+    </div>
+  </form>
+
+  <div id="card" aria-hidden="true">
+    <section id="card-panel" aria-labelledby="card-title">
+      <p class="eyebrow">recap</p>
+      <h2 id="card-title"></h2>
+      <ol id="card-lines"></ol>
+    </section>
+  </div>
+</div>
+<script>/*__JS__*/</script>
+</body>
+</html>
